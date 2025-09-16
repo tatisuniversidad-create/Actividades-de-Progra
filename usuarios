@@ -1,0 +1,91 @@
+// integrantes Esteban Peña,Tatiana Ramirez
+public class Usuarios {
+    public static int NRO_USUARIOS = 10;
+    public static String[] nombre = new String[NRO_USUARIOS];
+    public static float[] salario = new float[NRO_USUARIOS];
+    static int ProximosUsuarios = 0;
+    
+    public static void main(String[] arg){
+        agregarUsuario("Jose", 1430000);
+        agregarUsuario("Ana", 1200000);
+        agregarUsuario("Beatriz", 1800000);
+        agregarUsuario("Alberto", 1100000);
+        agregarUsuario("Daniel", 2000000);
+
+        System.out.println("Usuarios sin ordenar:");
+        imprimirTodos();
+
+        ordenarUsuarios();
+
+        System.out.println("\nUsuarios ordenados alfabéticamente:");
+        imprimirTodos();
+    }
+
+    public static int borrarUsuario(int indice){
+        if ((indice >= 0) && (indice < NRO_USUARIOS)){
+            if (indice >= ProximosUsuarios){
+                return -1; // usuario inexistente
+            }else{
+                for (int i = indice + 1; i < ProximosUsuarios; i++){
+                    nombre[i-1]= nombre[i];
+                    salario[i-1]= salario[i];
+                }
+                ProximosUsuarios--;
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public static void agregarUsuario(String name, float wage){
+        if (ProximosUsuarios < NRO_USUARIOS){
+            escribirUsuario(ProximosUsuarios, name, wage);
+            ProximosUsuarios++;
+        } else {
+            System.out.println("Se alcanzó el número máximo de usuarios");
+        }
+    }
+
+    public static void imprimirUsuario(int indice){
+        if ((indice >= 0) && (indice < ProximosUsuarios)){
+            System.out.println("* " + nombre[indice] + "  " + salario[indice]);
+        }else{
+            System.out.println("Índice de usuario erróneo");
+        }
+    }
+
+    public static void imprimirTodos(){
+        for (int i = 0; i < ProximosUsuarios; i++){
+            imprimirUsuario(i);
+        }
+    }
+
+    public static int escribirUsuario(int indice, String nom, float suel){
+        if ((indice >= 0) &&(indice < NRO_USUARIOS)){
+            nombre[indice] = nom;   // corregido
+            salario[indice] = suel; // corregido
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    // Método para ordenar alfabéticamente
+    public static void ordenarUsuarios(){
+        for (int i = 0; i < ProximosUsuarios - 1; i++){
+            for (int j = 0; j < ProximosUsuarios - i - 1; j++){
+                if (nombre[j].compareToIgnoreCase(nombre[j+1]) > 0){
+                    // Intercambio de nombre
+                    String tempNombre = nombre[j];
+                    nombre[j] = nombre[j+1];
+                    nombre[j+1] = tempNombre;
+
+                    // Intercambio de salario (para que mantenga la relación)
+                    float tempSalario = salario[j];
+                    salario[j] = salario[j+1];
+                    salario[j+1] = tempSalario;
+                }
+            }
+        }
+    }
+}
