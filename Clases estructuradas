@@ -1,0 +1,135 @@
+//Integrantes: Tatiana Ramirez, Esteban Peña 
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+// Clase 2: Para almacenar el tipo de ítem y su información (Plato)
+class Plato {
+    private String nombre;
+    private int precio;
+
+    public Plato(String nombre, int precio) {
+        this.nombre = nombre;
+        this.precio = precio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getPrecio() {
+        return precio;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " ($" + precio + ")";
+    }
+}
+
+// Clase 1: Para controlar todas las operaciones de BackEnd (GestorMenu)
+class GestorMenu {
+    private Plato proteina;
+    private Plato leguminosa;
+    private Plato ensalada;
+    private Plato acompanamiento;
+
+    // Opciones de platos predefinidas para cada categoría
+    private final Plato[] OPCIONES_PROTEINA = {
+        new Plato("Pollo", 6000),
+        new Plato("Carne de res", 7000),
+        new Plato("Carne de cerdo", 6500),
+        new Plato("Pescado", 8000)
+    };
+    private final Plato[] OPCIONES_LEGUMINOSA = {
+        new Plato("Frijol", 2000),
+        new Plato("Lentejas", 1800),
+        new Plato("Garbanzos", 2200),
+        new Plato("Arvejas", 2000)
+    };
+    private final Plato[] OPCIONES_ENSALADA = {
+        new Plato("Lechuga y tomate", 1500),
+        new Plato("Ensalada de aguacate", 2500),
+        new Plato("Verduras cocidas", 2000),
+        new Plato("Ensalada dulce", 3000)
+    };
+    private final Plato[] OPCIONES_ACOMPANAMIENTO = {
+        new Plato("Papa", 1000),
+        new Plato("Plátano", 1200),
+        new Plato("Arepa", 1000),
+        new Plato("Yuca", 1200)
+    };
+
+    public Plato[] getOpcionesProteina() {
+        return OPCIONES_PROTEINA;
+    }
+
+    public Plato[] getOpcionesLeguminosa() {
+        return OPCIONES_LEGUMINOSA;
+    }
+
+    public Plato[] getOpcionesEnsalada() {
+        return OPCIONES_ENSALADA;
+    }
+
+    public Plato[] getOpcionesAcompanamiento() {
+        return OPCIONES_ACOMPANAMIENTO;
+    }
+
+    public void seleccionarPlato(int categoria, int opcion) {
+        Plato[] opciones = null;
+        switch (categoria) {
+            case 1: opciones = OPCIONES_PROTEINA; break;
+            case 2: opciones = OPCIONES_LEGUMINOSA; break;
+            case 3: opciones = OPCIONES_ENSALADA; break;
+            case 4: opciones = OPCIONES_ACOMPANAMIENTO; break;
+        }
+
+        if (opciones != null && opcion >= 1 && opcion <= opciones.length) {
+            switch (categoria) {
+                case 1: proteina = opciones[opcion - 1]; break;
+                case 2: leguminosa = opciones[opcion - 1]; break;
+                case 3: ensalada = opciones[opcion - 1]; break;
+                case 4: acompanamiento = opciones[opcion - 1]; break;
+            }
+        } else {
+            // Esto ya lo maneja InterfazUsuario, pero es bueno tener una validación aquí también
+            System.err.println("Error interno: Opción de plato no válida para la categoría " + categoria);
+        }
+    }
+
+    public Plato getProteina() {
+        return proteina;
+    }
+
+    public Plato getLeguminosa() {
+        return leguminosa;
+    }
+
+    public Plato getEnsalada() {
+        return ensalada;
+    }
+
+    public Plato getAcompanamiento() {
+        return acompanamiento;
+    }
+
+    public int calcularTotal() {
+        int total = 0;
+        if (proteina != null) total += proteina.getPrecio();
+        if (leguminosa != null) total += leguminosa.getPrecio();
+        if (ensalada != null) total += ensalada.getPrecio();
+        if (acompanamiento != null) total += acompanamiento.getPrecio();
+        return total;
+    }
+}
+
+// Clase 3: Para la presentación de los menús y la lectura de los datos (InterfazUsuario)
+class InterfazUsuario {
+    private Scanner sc;
+    private GestorMenu gestor;
+
+    public InterfazUsuario(GestorMenu gestor) {
+        this.sc = new Scanner(System.in);
+        this.gestor = gestor;
+    }
