@@ -1,0 +1,92 @@
+crud de helados
+else if (primerElemento instanceof Helado) {
+    ArrayList<Helado> recursos = (ArrayList<Helado>) listaRecursos;
+    System.out.println("=== CRUD Helados ===");
+
+    opcion = menuCrud.createMenu(options, false);
+
+    switch (opcion) {
+        case '1': // Crear
+            System.out.println("Ingrese ID del helado:");
+            int id = input.nextInt();
+            input.nextLine(); // limpiar buffer
+
+            System.out.println("Ingrese nombre del helado:");
+            String nombre = input.nextLine();
+
+            System.out.println("Ingrese precio base del helado:");
+            float precio = input.nextFloat();
+            input.nextLine();
+
+            System.out.println("Ingrese los sabores separados por coma (ej: vainilla,chocolate):");
+            String saboresInput = input.nextLine();
+            ArrayList<String> sabores = new ArrayList<String>();
+            for (String s : saboresInput.split(",")) {
+                sabores.add(s.trim());
+            }
+
+            System.out.println("Ingrese tipo de helado (1=cono, 2=vaso, 3=sundae, etc):");
+            int tipo = input.nextInt();
+
+            Helado nuevoHelado = new Helado(id, nombre, precio, sabores, tipo);
+            recursos.add(nuevoHelado);
+            System.out.println("✅ Helado creado exitosamente!");
+            break;
+
+        case '2': // Ver
+            System.out.println("Lista de helados registrados:");
+            for (Helado h : recursos) {
+                System.out.println(h);
+            }
+            break;
+
+        case '3': // Editar
+            System.out.println("Ingrese el ID del helado a editar:");
+            id = input.nextInt();
+            input.nextLine();
+            boolean encontrado = false;
+            for (Helado h : recursos) {
+                if (h.id == id) {
+                    System.out.println("Helado encontrado: " + h.nombre);
+                    System.out.println("Nuevo nombre:");
+                    nombre = input.nextLine();
+                    h.nombre = nombre;
+
+                    System.out.println("Nuevo precio:");
+                    precio = input.nextFloat();
+                    h.setPrecio(precio);
+
+                    System.out.println("✅ Helado actualizado correctamente.");
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) {
+                System.out.println("❌ No se encontró el helado.");
+            }
+            break;
+
+        case '4': // Eliminar
+            System.out.println("Ingrese el ID del helado a eliminar:");
+            id = input.nextInt();
+            input.nextLine();
+            Helado aEliminar = null;
+            for (Helado h : recursos) {
+                if (h.id == id) {
+                    aEliminar = h;
+                    break;
+                }
+            }
+            if (aEliminar != null) {
+                recursos.remove(aEliminar);
+                System.out.println("✅ Helado eliminado correctamente.");
+            } else {
+                System.out.println("❌ No se encontró el helado.");
+            }
+            break;
+
+        default:
+            System.out.println("Volviendo al menú principal...");
+            break;
+    }
+}
