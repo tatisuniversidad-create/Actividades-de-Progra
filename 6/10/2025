@@ -1,0 +1,41 @@
+clase helado 
+import java.util.ArrayList;
+
+public class Helado {
+    public int id;
+    public String nombre;
+    public float precio;
+    private float precioTopping;
+    private ArrayList<String> sabores;
+    private ArrayList<String> toppings;
+    private int tipo;
+
+    // Constructor
+    public Helado(int id, String nombre, float precio, ArrayList<String> sabores, int tipo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.sabores = sabores;
+        this.tipo = tipo;
+        this.toppings = new ArrayList<String>();
+        this.precioTopping = 500;
+    }
+
+    public float calcularPrecio() {
+        return this.precio + (this.precioTopping * this.toppings.size());
+    }
+
+    // Setters y getters (igual que tu versión)
+
+    @Override
+    public String toString() {
+        return "Helado {" +
+                "ID=" + id +
+                ", Nombre='" + nombre + '\'' +
+                ", Precio=" + precio +
+                ", Sabores=" + sabores +
+                ", Toppings=" + toppings +
+                ", Tipo=" + tipo +
+                '}';
+    }
+}
